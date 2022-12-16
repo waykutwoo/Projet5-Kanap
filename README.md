@@ -4,27 +4,8 @@
 
 
 ![image](https://user-images.githubusercontent.com/106766135/204904995-755cfa34-9b66-47ca-af2f-3bc2216a4dd7.png) OpenClassrooms - Développeur Web - Site e-commerce en JavaScript
-________________________________________________
 
-Projet 5 - Construisez un site e-commerce en JavaScript "Kanap"
-
-Créer des interfaces dynamiques
-
-
-Construire un site Web e-commerce en Javascript
-
-Gérer des événements JavaScript
-
-Valider des données issues de sources externes
-
-Créer un plan de test pour une application
-
-Interagir avec un web service avec JavaScript
-
-Respecter les spécifications fonctionnelles et techniques
-
-
-_____________________________________________________________
+_________________________________________________________________
 
 
 This is the front end and back end server for Project 5 of the Web Developer path.
@@ -41,17 +22,41 @@ The server should run on `localhost` with default port `3000`. If the
 server runs on another port for any reason, this is printed to the
 console when the server starts, e.g. `Listening on port 3001`.
 
-________________________________________________
+_________________________________________________________________
+
 
 Lancement
 
-Ouvrir le terminal intégré du dossier Back-end et saisissez la commande 'npm install' puis 'npm run start'
+Ouvrir le terminal saisissez la commande 'cd back' puis 'npm install' puis 'npm run start'
 
 Ouvrir le dossier html et lancer index.html avec live server
 
-Listening on port 3000 http://localhost:3000/api/products
+Listening on port 3000 
 
-_________________________________________________
+__________________________________________________________________
+
+installer serveur web local
+
+install http-server 
+
+- npm install --global http-server
+
+Demarrer le projet back
+
+- cd back
+
+- npm install
+
+Demarrer le projet front
+
+- http-server front
+
+- Lancer l'url
+
+Depuis votre navigateur : http://127.0.0.1:8080
+
+___________________________________________________________________
+
 
 
 
