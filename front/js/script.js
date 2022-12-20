@@ -14,7 +14,8 @@ function createTag(newTagName) {
 // les classes des éléments sont mise a jour, les nom ont été redéfini
 
 function createProductsCards() {
-  fetch("http://localhost:3000/api/products")
+  const url = "http://localhost:3000/api/products";
+  fetch(url)
     .then((response) => {
       return response.json();
     })

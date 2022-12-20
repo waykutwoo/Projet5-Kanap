@@ -29,7 +29,8 @@ function createTag(newTagName) {
 // La boucle while productList[i]._id) est différent de l’ID du produit recherché (productId). Si c’est le cas, elle incrémente l’index i pour passer au produit suivant dans la liste, et répète cette vérification jusqu’à ce qu’elle trouve un produit dont l’ID correspond à productId.
 
 function fillProductPages() {
-  fetch("http://localhost:3000/api/products")
+  const url = "http://localhost:3000/api/products";
+  fetch(url)
     .then((response) => {
       return response.json();
     })

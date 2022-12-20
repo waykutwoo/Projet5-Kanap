@@ -200,7 +200,8 @@ let i = 0;
 // "innerHTML" retourne le contenu HTML d'un element
 // "textContent" retourne le contenu textuel d'un element
 function displayCart() {
-  fetch("http://localhost:3000/api/products")
+  const url = "http://localhost:3000/api/products";
+  fetch(url)
     .then((response) => {
       return response.json();
     })
@@ -258,12 +259,11 @@ const formInputValidation = function () {
 // "criteria" critéres d'expression Regexp
 // "validationStatus" tableau qui contient les status de validation des champs du formulaire
 
-const nameCriterias = /^[a-zç]+[a-zç ,.'-]+$/i;
+const nameCriterias = /^[a-zçèé]+[a-zçèé ,.'-]+$/i;
 const emailCriterias =
-  /[a-z0-9!#%&'*+/=^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+  /^[a-zA-Z0-9.èé!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 let validationStatus = [undefined, undefined, undefined, undefined, undefined];
 let errorName;
-
 // Détecte le champs qui a été modifié, vérifie s'il répond aux critères de saisie définis, et si false modifie la balise html d'erreur correspondante. Si la saisie est à nouveau valide après modification, retire le message d'erreur.
 // "targetElement" element cible
 // "i" index
@@ -363,7 +363,8 @@ function sendCartAndInput(event) {
   ) {
     // mergeInputs() est exécutée et fusionne les valeurs entrées par l’utilisateur
     mergeInputs();
-    fetch("http://localhost:3000/api/products/order", {
+    const url = "http://localhost:3000/api/products/order";
+    fetch(url, {
       method: "POST",
       body: JSON.stringify(orderProducts),
       headers: {
@@ -384,5 +385,29 @@ function sendCartAndInput(event) {
     alert(
       "Le formulaire n'a pas pu être validé. Tous les champs sont-ils correctement remplis?"
     );
+  }
+}
+
+if (cart.length === 0) {
+  alert("Panier vide");
+  console.log("Panier vide");
+}
+
+// Trouvez l'index du produit dans le panier
+const product = cart.findIndex((product) => product.id === id);
+
+// Si le produit existe dans le panier
+if (product !== -1) {
+  // Récupérez le produit
+  const product = cart[product];
+
+  // Si la quantité est égale à 0, supprimez le produit du panier
+  if (product.quantity === 0) {
+    cart.splice(product, 1);
+  }
+
+  // Si le panier est vide, affichez un message "Panier vide"
+  if (cart.length === 0) {
+    console.log("Panier vide");
   }
 }
