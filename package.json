@@ -1,0 +1,19 @@
+{
+  "name": "projet5-kanap",
+  "version": "1.0.0",
+  "description": "![Kanap](https://user-images.githubusercontent.com/106766135/206159248-58137a3a-cfb5-405f-a13b-4b0c02fee8cf.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waykutwoo/Projet5-Kanap.git"
+  },
+  "author": "AykutKokluk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/waykutwoo/Projet5-Kanap/issues"
+  },
+  "homepage": "https://github.com/waykutwoo/Projet5-Kanap#readme"
+}

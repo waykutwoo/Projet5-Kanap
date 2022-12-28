@@ -12,6 +12,7 @@
 // ce code affiche l’ID de commande de la page courante dans un élément HTML avec l’ID  orderId
 // création de l'objet response
 
+
 const currentPageUrl = document.location.href;
 const url = new URL(currentPageUrl);
 const orderId = url.searchParams.get("order");
@@ -19,3 +20,5 @@ const orderIdSpan = document.getElementById("orderId");
 const response = new URL("http://localhost:3000");
 console.log(response);
 orderIdSpan.textContent = `${orderId}`;
+
+
