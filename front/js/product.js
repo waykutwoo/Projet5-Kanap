@@ -1,5 +1,5 @@
 // Récupérer l’id du produit à afficher ayant été cliqué sur la page d’accueil
-import { url_api } from './utils.js'
+import { url_api } from "./utils.js";
 
 // stock l’URL de la page actuelle dans une variable appelée 'currentPageUrl
 // crée un nouvel objet 'URLcurrentPageUrl. Cet objet URL permet d’analyser et de manipuler facilement l’URL de la page actuelle
@@ -30,7 +30,7 @@ function createTag(newTagName) {
 // La boucle while productList[i]._id) est différent de l’ID du produit recherché (productId). Si c’est le cas, elle incrémente l’index i pour passer au produit suivant dans la liste, et répète cette vérification jusqu’à ce qu’elle trouve un produit dont l’ID correspond à productId.
 
 function fillProductPages() {
-  fetch(url_api+"products")
+  fetch(url_api + "products")
     .then((response) => {
       return response.json();
     })
@@ -65,26 +65,18 @@ function fillProductPages() {
       }
     })
     .catch((err) => {
-      var mainElement  = document.getElementById("main");
-      mainElement.innerHTML = "Nous n'avons pas pu retrouver le produit veuillez contacter l'admin"
-      
+      var mainElement = document.getElementById("main");
+      mainElement.innerHTML =
+        "Nous n'avons pas pu retrouver le produit veuillez contacter l'admin";
+
       if (err === null) {
-        console.log("Le produit a été trouvé :"),err;
-      } 
-      else {
+        console.log("Le produit a été trouvé :"), err;
+      } else {
         console.log("Le produit n'a pas été trouvé");
       }
     });
-
-
 }
-    
 
-
-
-  
- 
-  
 fillProductPages();
 
 //"===" test la valeur et le type
@@ -106,7 +98,7 @@ const addToCart = () => {
   if (selectedColor.value == "" || selectedQuantity.value == 0) {
     alert("Veuillez choisir la couleur ainsi que la quantitée");
   } else {
-    if(Number(selectedQuantity.value)<0){
+    if (Number(selectedQuantity.value) < 0) {
       alert("Veuillez entrez une quantité supérieur à zéro");
       return;
     }
@@ -148,9 +140,3 @@ const addToCart = () => {
 cartButton.addEventListener("click", addToCart);
 
 // écouteur d’événement pour l’événement « click » sur un élément avec l’identifiant cartButton, addToCart sera appelée.
-
-
-  
-  
-
-

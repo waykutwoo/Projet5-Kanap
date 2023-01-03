@@ -114,7 +114,8 @@ const removeFromCart = function () {
     eventListener();
     getCartTotal();
     if (cart.length === 0) {
-      document.getElementById("limitedWidthBlock").innerHTML = "Votre panier est vide";
+      document.getElementById("limitedWidthBlock").innerHTML =
+        "Votre panier est vide";
       console.log("Panier vide");
     }
   }
@@ -307,7 +308,7 @@ const checkInput = function (targetElement) {
     i++;
   }
 };
-
+// j'ai ajouté des accolades autour de chaque condition afin de rendre le code plus lisible.
 let contact;
 
 // Sauvegarde le contenu des champs du formulaire dans une variable contact
@@ -392,18 +393,14 @@ function sendCartAndInput(event) {
   }
 }
 
-
-
-
 if (cart.length === 0) {
-  document.getElementById("limitedWidthBlock").innerHTML = "Votre panier est vide";
+  document.getElementById("limitedWidthBlock").innerHTML =
+    "Votre panier est vide";
   document.getElementById("limitedWidthBlock").title = "Votre panier est vide";
   console.log("Panier vide");
 }
 
-
-
-/*// Trouvez l'index du produit dans le panier
+// Trouvez l'index du produit dans le panier
 const product = cart.findIndex((product) => product.id === id);
 
 // Si le produit existe dans le panier
@@ -420,24 +417,4 @@ if (product !== -1) {
   if (cart.length === 0) {
     console.log("Panier vide");
   }
-}*/
-
-
- const productIndex = cart.findIndex((product) => product.id === "id");
-
-if (productIndex !== -1) {
-  const foundProduct = cart[productIndex];
-
-  if (foundProduct.quantity === 0) {
-    cart.splice(productIndex, 1);
-  }
-
-  if (cart.length === 0) {
-    console.log("Panier vide");
-  }
 }
-
-
-
-
-
