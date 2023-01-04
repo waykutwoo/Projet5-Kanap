@@ -288,11 +288,15 @@ const checkInput = function (targetElement) {
         this.id == "city"
       ) {
         validationStatus[i] = nameCriterias.test(this.value);
+        console.log(validationStatus[i]); // affiche la valeur de validationStatus[i]
       } else if (this.id == "email") {
         validationStatus[i] = emailCriterias.test(this.value);
+        console.log(validationStatus[i]); // affiche la valeur de validationStatus[i]
       } else if (this.id == "address") {
+        1;
         if (formInputs[i].value.length > 5) {
           validationStatus[i] = true;
+          0;
         } else {
           validationStatus[i] = false;
         }
@@ -308,7 +312,8 @@ const checkInput = function (targetElement) {
     i++;
   }
 };
-// j'ai ajouté des accolades autour de chaque condition afin de rendre le code plus lisible.
+
+// j'ai ajouté des accolades autour de chaque condition afin de rendre le code plus lisible.0
 let contact;
 
 // Sauvegarde le contenu des champs du formulaire dans une variable contact
@@ -401,7 +406,7 @@ if (cart.length === 0) {
 }
 
 // Trouvez l'index du produit dans le panier
-const product = cart.findIndex((product) => product.id === id);
+const product = cart.findIndex((product) => product.id === "id");
 
 // Si le produit existe dans le panier
 if (product !== -1) {
