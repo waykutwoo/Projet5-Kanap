@@ -42,8 +42,12 @@ const eventListener = function () {
     ".cart__item__content__settings__quantity > .itemQuantity"
   );
   quantityInputField.forEach((element) => {
-    element.setAttribute("value", element.value);
-    productQuantity += element.value;
+    let quantity = element.value;
+    if (quantity > 100) {
+      quantity = 100;
+    }
+    element.setAttribute("value", quantity);
+    productQuantity += quantity;
     element.addEventListener("change", pushLocalStorageQuantity);
   });
   removeButton = document.querySelectorAll(".deleteItem");
@@ -53,8 +57,28 @@ const eventListener = function () {
 };
 
 const getUnitQuantities = function () {
-  quantityInputField.setAttribute("value", element.value);
+  let quantity = element.value;
+  if (quantity > 100) {
+    quantity = 100;
+  }
+  quantityInputField.setAttribute("value", quantity);
 };
+
+const quantityInputFields = document.querySelectorAll(".cart-quantity-input");
+
+const validateQuantity = function (event) {
+  const inputField = event.target;
+  let quantity = inputField.value;
+  if (quantity > 100) {
+    quantity = 100;
+  }
+  inputField.value = quantity;
+};
+
+quantityInputFields.forEach(function (inputField) {
+  inputField.addEventListener("input", validateQuantity);
+});
+
 // "=" affectation d'une valeur a une variable
 // "{}" invoque une fonction
 
@@ -82,6 +106,25 @@ const getCartTotal = function () {
   eventListener();
 };
 
+const addToCart = function () {
+  // Calculer la quantité totale des articles dans le panier
+  let cartTotalQuantity = 0;
+  for (let i = 0; i < quantityInputField.length; i++) {
+    cartTotalQuantity += Number(quantityInputField[i].value);
+  }
+
+  // Si la quantité totale des articles dépasse 100, afficher un message d'erreur
+  if (cartTotalQuantity >= 100) {
+    alert(
+      "Vous ne pouvez pas ajouter d'autres articles au panier car le nombre total d'articles est déjà limité à 100."
+    );
+    return;
+  }
+
+  // Ajouter l'article au panier et mettre à jour le total
+  // ...
+};
+console.log(addToCart);
 // Compare l'id et couleur de l'élément 'article' avec ceux contenus dans le panier en localstorage
 // Si l'élément est trouvé, retourne l'objet correspondant
 // "find" retourne la valeur du premier element du tableau qui satisfait une fonction de test
@@ -107,19 +150,22 @@ const removeFromCart = function () {
   getParentArticle = this.closest("article");
   getProductToUpdate();
   if (updatedProduct) {
-    const indexOfRemovedProduct = cart.indexOf(updatedProduct);
-    const removeProduct = cart.splice(indexOfRemovedProduct, 1);
-    getParentArticle.remove();
-    localStorage.setItem("cart", JSON.stringify(cart));
-    eventListener();
-    getCartTotal();
-    if (cart.length === 0) {
-      document.getElementById("limitedWidthBlock").innerHTML =
-        "Votre panier est vide";
-      console.log("Panier vide");
+    if (confirm("Êtes-vous sûr de vouloir supprimer cet article du panier?")) {
+      const indexOfRemovedProduct = cart.indexOf(updatedProduct);
+      const removeProduct = cart.splice(indexOfRemovedProduct, 1);
+      getParentArticle.remove();
+      localStorage.setItem("cart", JSON.stringify(cart));
+      eventListener();
+      getCartTotal();
+      if (cart.length === 0) {
+        document.getElementById("limitedWidthBlock").innerHTML =
+          "Votre panier est vide";
+        console.log("Panier vide");
+      }
     }
   }
 };
+
 // "splice" ajoute et/ou supprime n'import quel éléments de tableau
 // Trouve l'index du produit dans le cart pour mettre à jour sa quantité, puis force un recalcul du total
 //  Element.closest() cible le produit a supprimer (où modifie la quantité) grâce à son identifiant et sa couleur
@@ -127,19 +173,26 @@ const removeFromCart = function () {
 // "indexOf" retourne l'index du premier element du tableau qui satisfait une fonction de test
 
 const pushLocalStorageQuantity = function () {
+  // "push" ajoute un ou plusieurs elements a la fin d'un tableau et retourne la nouvelle taille du tableau
   getParentArticle = this.closest("article");
   getProductToUpdate();
-  if (updatedProduct) {
+  if (cart.length === 0) {
+    alert("Le panier est vide");
+  } else if (updatedProduct) {
     const indexOfUpdatedProduct = cart.indexOf(updatedProduct);
-    updatedProduct.quantity = parseInt(
-      quantityInputField[indexOfUpdatedProduct].value
-    );
-    localStorage.setItem("cart", JSON.stringify(cart));
+    let quantity = parseInt(quantityInputField[indexOfUpdatedProduct].value);
+    if (quantity > 100) {
+      alert("La quantité ne peut pas dépasser 100");
+      quantity = 100;
+    }
+    updatedProduct.quantity = quantity;
+    localStorage.setItem("cart", JSON.stringify(cart)); // "setItem" ajoute un element au localstorage
     eventListener();
     getCartTotal();
     convertCartToArray();
   }
 };
+
 // localstorage
 // "setItem" ajoute un element au localstorage
 // "JSON.stringify" convertit une valeur JavaScript en chaine JSON
@@ -161,18 +214,20 @@ const pushLocalStorageQuantity = function () {
 
 // "createElement" cree un nouvel element HTML
 const createInnerContent = function () {
+  // Crée un nouveau bloc article pour chaque produit du panier
+  //  le nom,la couleur,le prix,l'image du produit est affiché
   cartContent += `<article class="cart__item" data-id="${cart[i].id}" data-color="${productColor}">
-  <div class="cart__item__img"><img src="${cartItemImage}" alt="${cartItemImageAlt}"></div>
+  <div class="cart__item__img"><img src="${cartItemImage}" alt="${cartItemImageAlt}"></div>  
   <div class="cart__item__content">
   <div class="cart__item__content__description">
-  <h2>${productName}</h2>
+  <h2>${productName}</h2>  
   <p>${productColor}</p>
   <p>${productPrice} €</p>
   </div>
   <div class="cart__item__content__settings">
   <div class="cart__item__content__settings__quantity">
   <p>Qté : </p>
-  <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cart[i].quantity}">
+  <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cart[i].quantity}"> 
   </div>
   <div class="cart__item__content__settings__delete">
   <p class="deleteItem">Supprimer</p>
@@ -371,22 +426,22 @@ function sendCartAndInput(event) {
     !validationStatus.includes(false) &&
     !validationStatus.includes(undefined)
   ) {
-    // mergeInputs() est exécutée et fusionne les valeurs entrées par l’utilisateur
-    mergeInputs();
+    mergeInputs(); //  la fonction "mergeInputs" est appelée, puis une requête HTTP POST est envoyée à l'URL "http://localhost:3000/api/products/order" avec le corps de la requête contenant la valeur de la variable "orderProducts" encodée en tant que chaîne JSON.
     const url = "http://localhost:3000/api/products/order";
     fetch(url, {
-      method: "POST",
-      body: JSON.stringify(orderProducts),
+      // méthode fetch() pour récupérer les données
+      method: "POST", // méthode POST pour envoyer des données au serveur
+      body: JSON.stringify(orderProducts), // méthode stringify() pour convertir un objet JavaScript en chaîne de caractères JSON
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", // Défini le type de données à envoyer au serveur (ici, "POST" et "JSON" )
       },
     })
       .then((response) => {
         return response.json();
       })
       .then((response) => {
-        localStorage.clear();
-        window.location.href = `confirmation.html?order=${response.orderId}`;
+        localStorage.clear(); // Cela vide le stockage local et redirige l'utilisateur vers une page de confirmation avec un paramètre d'URL "order" qui contient l'identifiant de commande renvoyé par l'API
+        window.location.href = `confirmation.html?order=${response.orderId}`; // méthode location.href pour rediriger l'utilisateur vers une page de confirmation avec un paramètre d'URL "order" qui contient l'identifiant de commande renvoyé par l'API
       })
       .catch((error) => {
         console.log(error);
@@ -423,3 +478,28 @@ if (product !== -1) {
     console.log("Panier vide");
   }
 }
+if (cart.length === 0) {
+  alert("Le panier est vide");
+}
+
+const calculatePrice = () => {
+  // Initialiser le prix total à 0
+  let totalPrice = 0;
+
+  // Parcourir tous les articles dans le panier
+  for (let i = 0; i < cart.length; i++) {
+    // Ajouter le prix de l'article au total
+    totalPrice += cart[i].price * cart[i].quantity;
+
+    // Si le total dépasse 100, arrêter de calculer et définir le total sur 100
+    if (totalPrice >= 100) {
+      totalPrice = 100;
+      break;
+    }
+  }
+
+  // Retourner le prix total
+  return totalPrice;
+};
+// Appeler la fonction calculatePrice et afficher le résultat
+console.log(calculatePrice(cart));

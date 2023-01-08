@@ -102,6 +102,10 @@ const addToCart = () => {
       alert("Veuillez entrez une quantité supérieur à zéro");
       return;
     }
+    if (Number(selectedQuantity.value) > 100) {
+      alert("Veuillez entrez une quantité inférieure ou égale à 100");
+      return;
+    }
     let newProductInCart = {
       color: selectedColor.value,
       id: productId,
@@ -117,6 +121,9 @@ const addToCart = () => {
       if (productInCart) {
         productInCart.quantity =
           parseInt(productInCart.quantity) + parseInt(selectedQuantity.value);
+        if (productInCart.quantity > 100) {
+          productInCart.quantity = 100;
+        }
         localStorage.setItem("cart", JSON.stringify(cart));
         alert("Votre commande a été ajouté dans le panier");
       } else {
@@ -131,6 +138,7 @@ const addToCart = () => {
     }
   }
 };
+
 // localstorage
 // méthode setItem de l’objet localStorage pour stocker la valeur de la variable cart dans le navigateur sous la clé "cart"
 // méthode getItem de l’objet localStorage pour récupérer la valeur de la variable cart dans le navigateur sous la clé "cart"
