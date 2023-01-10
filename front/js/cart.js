@@ -1,21 +1,15 @@
-// afficher le contenu de la page panier dans la page panier
-// aller chercher dans le DOM les éléments par Id
-// creation d'un nouveau nom de balise "cart__items"
-// creation d'une fonction pour créer une nouvelle balise
-// retourne dans le DOM l'élément crée
+// Description: This file contains the functions that allow the user to add, remove and modify the quantity of products in the cart.
 
 const cartItems = document.getElementById("cart__items");
+
+// Description: This function is used to add a product to the cart
 
 function createTag(newTagName) {
   return document.createElement(newTagName);
 }
-// return dans le DOM l'élément crée
-// utilisation du loacalstorage pour acceder a array depuis la page panier
 
+// Description: This function is used to add a class to an element
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-// = affectation, || operateur "ou" logique, [] racourci pour crée un tableau vide array
-// création des fonctions supprimer /calculer le total /envoi de la commande qui seront utilisée dans la fonction du pannier cart
 
 const totalQuantityElement = document.getElementById("totalQuantity");
 const displayedTotal = document.getElementById("totalPrice");
@@ -23,19 +17,6 @@ let removeButton;
 let quantityInputField;
 let getParentArticle;
 let updatedProduct;
-// "let" creation de variable
-// "any" n'importe quel
-// Ajoute un event listener sur les <input> quantité de chaque produit et leur bouton "Supprimer"
-// () crée la fonction immédiatement exécutable dans le DOM
-// fonction retourne une valeur du DOM
-// cart.html
-// => fonction flechée arrow qui va automatiquement évaluer l’expression à droite du signe => et retourner son résultat
-// += affectation de d'addition
-// objet ataché a une variable separé par un "."
-// "querySelectorAll" selectionne tous les elements qui correspondent au selecteur CSS
-// "addEventListener" ajoute un event listener sur les <input> quantité de chaque produit et leur bouton "Supprimer"
-// "setAttribute" ajoute un attribut a un element
-// "textContent" retourne le contenu textuel d'un element
 
 const eventListener = function () {
   quantityInputField = document.querySelectorAll(
@@ -56,6 +37,7 @@ const eventListener = function () {
   });
 };
 
+// Description: This function is used to convert the cart into an array
 const getUnitQuantities = function () {
   let quantity = element.value;
   if (quantity > 100) {
@@ -66,6 +48,7 @@ const getUnitQuantities = function () {
 
 const quantityInputFields = document.querySelectorAll(".cart-quantity-input");
 
+// Description: This function is used to validate the quantity of products in the cart
 const validateQuantity = function (event) {
   const inputField = event.target;
   let quantity = inputField.value;
@@ -75,23 +58,11 @@ const validateQuantity = function (event) {
   inputField.value = quantity;
 };
 
+// Description: This function is used to update the quantity of products in the cart
 quantityInputFields.forEach(function (inputField) {
   inputField.addEventListener("input", validateQuantity);
 });
 
-// "=" affectation d'une valeur a une variable
-// "{}" invoque une fonction
-
-// "let" pour cree une variable "i" compteur "=" pour lui donner une valeur
-// !== "!" si non logique (condition false) "==" l'égalité simple verifie la valeur
-// Quand la quantité dans les <input> change, calcule le total depuis les quantités affichées et le prix des produits
-// "Number" objet qui represente un nombre
-// "textContent" retourne le contenu textuel d'un element
-// "value" retourne la valeur d'un element
-// "length" retourne la taille d'un objet
-// "push" ajoute un ou plusieurs elements a la fin d'un tableau et retourne la nouvelle taille du tableau
-// "splice" ajoute et/ou supprime n'import quel éléments de tableau
-// "closest" retourne le premier element parent qui correspond au selecteur CSS
 const getCartTotal = function () {
   let cartTotalPrice = new Number();
   let cartTotalQuantity = new Number();
@@ -106,29 +77,23 @@ const getCartTotal = function () {
   eventListener();
 };
 
+// Description: This function is used to convert the cart into an array
 const addToCart = function () {
-  // Calculer la quantité totale des articles dans le panier
   let cartTotalQuantity = 0;
   for (let i = 0; i < quantityInputField.length; i++) {
     cartTotalQuantity += Number(quantityInputField[i].value);
   }
 
-  // Si la quantité totale des articles dépasse 100, afficher un message d'erreur
   if (cartTotalQuantity >= 100) {
     alert(
       "Vous ne pouvez pas ajouter d'autres articles au panier car le nombre total d'articles est déjà limité à 100."
     );
     return;
   }
-
-  // Ajouter l'article au panier et mettre à jour le total
-  // ...
 };
 console.log(addToCart);
-// Compare l'id et couleur de l'élément 'article' avec ceux contenus dans le panier en localstorage
-// Si l'élément est trouvé, retourne l'objet correspondant
-// "find" retourne la valeur du premier element du tableau qui satisfait une fonction de test
 
+// Description: This function is used to convert the cart into an array
 const getProductToUpdate = function () {
   let parentArticleDataset = {
     color: getParentArticle.dataset.color,
@@ -141,11 +106,7 @@ const getProductToUpdate = function () {
   );
   return updatedProduct;
 };
-// && et et
-// == egalité simple verifie la valeur
-// Trouve l'index du produit dans cart pour le supprimer, le retirer du DOM et forcer un recalcul du total
-// "splice" ajoute et/ou supprime n'import quel éléments de tableau
-// "closest" retourne le premier element parent qui correspond au selecteur CSS
+
 const removeFromCart = function () {
   getParentArticle = this.closest("article");
   getProductToUpdate();
@@ -166,14 +127,7 @@ const removeFromCart = function () {
   }
 };
 
-// "splice" ajoute et/ou supprime n'import quel éléments de tableau
-// Trouve l'index du produit dans le cart pour mettre à jour sa quantité, puis force un recalcul du total
-//  Element.closest() cible le produit a supprimer (où modifie la quantité) grâce à son identifiant et sa couleur
-// "parseInt" convertit une chaine de caractères en nombre entier
-// "indexOf" retourne l'index du premier element du tableau qui satisfait une fonction de test
-
 const pushLocalStorageQuantity = function () {
-  // "push" ajoute un ou plusieurs elements a la fin d'un tableau et retourne la nouvelle taille du tableau
   getParentArticle = this.closest("article");
   getProductToUpdate();
   if (cart.length === 0) {
@@ -186,36 +140,14 @@ const pushLocalStorageQuantity = function () {
       quantity = 100;
     }
     updatedProduct.quantity = quantity;
-    localStorage.setItem("cart", JSON.stringify(cart)); // "setItem" ajoute un element au localstorage
+    localStorage.setItem("cart", JSON.stringify(cart));
     eventListener();
     getCartTotal();
     convertCartToArray();
   }
 };
 
-// localstorage
-// "setItem" ajoute un element au localstorage
-// "JSON.stringify" convertit une valeur JavaScript en chaine JSON
-// "JSON.parse" convertit une chaine JSON en objet JavaScript
-// "getItem" retourne la valeur d'un element du localstorage
-// "removeItem" supprime un element du localstorage
-// "clear" supprime tous les elements du localstorage
-
-// Crée un nouveau bloc article pour chaque produit du panier
-// "createElement" cree un nouvel element HTML
-// "appendChild" ajoute un noeud enfant a un noeud parent
-// "setAttribute" definit ou change la valeur d'un attribut d'un element
-// "innerHTML" retourne le contenu HTML d'un element
-// "textContent" retourne le contenu textuel d'un element
-// "value" retourne la valeur d'un element
-// "length" retourne la taille d'un objet
-// "push" ajoute un ou plusieurs elements a la fin d'un tableau et retourne la nouvelle taille du tableau
-// "splice" ajoute et/ou supprime n'import quel éléments de tableau
-
-// "createElement" cree un nouvel element HTML
 const createInnerContent = function () {
-  // Crée un nouveau bloc article pour chaque produit du panier
-  //  le nom,la couleur,le prix,l'image du produit est affiché
   cartContent += `<article class="cart__item" data-id="${cart[i].id}" data-color="${productColor}">
   <div class="cart__item__img"><img src="${cartItemImage}" alt="${cartItemImageAlt}"></div>  
   <div class="cart__item__content">
@@ -237,8 +169,6 @@ const createInnerContent = function () {
   </article>`;
 };
 
-// "let" permet de déclarer des variables limitées à la portée du bloc, instruction, ou expression dans laquelle elle est utilisée
-
 let cartItemImage;
 let cartItemImageAlt;
 let productName;
@@ -248,17 +178,8 @@ let productQuantity = [];
 let displayPrice = [];
 let cartContent = "";
 let i = 0;
-
-// Fonction principale du panier
-// "fetch" permet de récupérer des données à partir d'une URL
-// "then" retourne une promesse
-// "response" retourne la réponse d'un serveur
-// "json" retourne les données au format JSON
-// "forEach" execute une fonction donnée sur chaque element du tableau
-// "find" retourne la valeur du premier element du tableau qui satisfait une fonction de test
-// "push" ajoute un ou plusieurs elements a la fin d'un tableau et retourne la nouvelle taille du tableau
-// "innerHTML" retourne le contenu HTML d'un element
-// "textContent" retourne le contenu textuel d'un element
+//
+// Description: This function is used to display the cart
 function displayCart() {
   const url = "http://localhost:3000/api/products";
   fetch(url)
@@ -290,14 +211,8 @@ function displayCart() {
     });
 }
 
+// Description: This function is used to display the cart total price
 displayCart();
-
-// "querySelectorAll" retourne une NodeList statique (non-live) représentant une liste des elements du document correspondant au groupe de selecteurs spécifiés
-// "getElementById" retourne l'element qui a l'identifiant spécifié
-// "forEach" execute une fonction donnée sur chaque element du tableau
-// "addEventListener" ajoute un eventListener à un element
-// "preventDefault" annule l'evenement si celui-ci est annulable, sans stopper la propagation de l'evenement
-// "checkInput" verifie si les champs du formulaire sont remplis correctement
 
 const formInputs = document.querySelectorAll(
   ".cart__order__form__question > input"
@@ -307,31 +222,19 @@ const formInputsErrors = document.querySelectorAll(
 );
 const orderButton = document.getElementById("order");
 
-// Ajoute un eventListener à chaque élément champs du formulaire
-// "checkInput" verifie si les champs du formulaire sont remplis correctement
-
 const formInputValidation = function () {
   formInputs.forEach((inputField) => {
     inputField.addEventListener("change", checkInput);
   });
   orderButton.addEventListener("click", sendCartAndInput);
 };
-// "criteria" critéres d'expression Regexp
-// "validationStatus" tableau qui contient les status de validation des champs du formulaire
 
+// Description: This function is used to check the input fields
 const nameCriterias = /^[a-zçèé]+[a-zçèé ,.'-]+$/i;
 const emailCriterias =
   /^[a-zA-Z0-9.èé!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 let validationStatus = [undefined, undefined, undefined, undefined, undefined];
 let errorName;
-// Détecte le champs qui a été modifié, vérifie s'il répond aux critères de saisie définis, et si false modifie la balise html d'erreur correspondante. Si la saisie est à nouveau valide après modification, retire le message d'erreur.
-// "targetElement" element cible
-// "i" index
-// "while" execute une fonction donnée sur chaque element du tableau
-// "id" retourne l'identifiant d'un element
-// "name" retourne le nom d'un element
-// "item" retourne l'element à l'index spécifié dans un tableau
-// "value" retourne la valeur d'un element
 
 const checkInput = function (targetElement) {
   let i = 0;
@@ -343,10 +246,10 @@ const checkInput = function (targetElement) {
         this.id == "city"
       ) {
         validationStatus[i] = nameCriterias.test(this.value);
-        console.log(validationStatus[i]); // affiche la valeur de validationStatus[i]
+        console.log(validationStatus[i]);
       } else if (this.id == "email") {
         validationStatus[i] = emailCriterias.test(this.value);
-        console.log(validationStatus[i]); // affiche la valeur de validationStatus[i]
+        console.log(validationStatus[i]);
       } else if (this.id == "address") {
         1;
         if (formInputs[i].value.length > 5) {
@@ -368,11 +271,9 @@ const checkInput = function (targetElement) {
   }
 };
 
-// j'ai ajouté des accolades autour de chaque condition afin de rendre le code plus lisible.0
 let contact;
 
-// Sauvegarde le contenu des champs du formulaire dans une variable contact
-
+// Description: This function is used to save the input fields
 const saveInputForm = function () {
   contact = {
     firstName: `${formInputs[0].value}`,
@@ -383,12 +284,8 @@ const saveInputForm = function () {
   };
 };
 
+// Description: This function is used to send the cart and the input fields
 const products = [];
-
-// Extrait le contenu du panier en localstorage et le sauvegarde dans une variable products
-// "forEach" pour chaque
-// "find" retourne la valeur du premier element du tableau qui satisfait une fonction de test fournie
-// "push" ajoute un ou plusieurs elements à la fin d'un tableau et retourne la nouvelle longueur du tableau
 
 const convertCartToArray = function () {
   cart.forEach((product) => {
@@ -397,11 +294,8 @@ const convertCartToArray = function () {
   });
 };
 
+// Description: This function is used to merge the cart and the input fields
 let orderProducts;
-
-// Regroupe le contenu du panier et le contenu des champs du formulaire dans un unique object
-// ajout de propriété a l'objet déclaré
-// mergeInputs() est exécutée et fusionne les valeurs entrées par l’utilisateur
 
 const mergeInputs = function () {
   convertCartToArray();
@@ -412,36 +306,28 @@ const mergeInputs = function () {
   };
 };
 
-// Vérifie que tous les champs du formulaire sont valides, et si oui : envoie le contenu du panier, redirige vers la page de confirmation correspondant à l'order id, et vide le localstorage
-// méthode stringify() pour convertir un objet JavaScript en chaîne de caractères JSON
-// requête en utilisant la méthode fetch et l'URL cible
-// méthode fetch() pour récupérer les données
-// méthode json() pour convertir les données au format JSON
-// méthode catch() pour gérer les erreurs
-// Définissez le type de données à envoyer au serveur (ici, "POST" et "JSON" )
-
+// Description: This function is used to send the cart and the input fields
 function sendCartAndInput(event) {
   event.preventDefault();
   if (
     !validationStatus.includes(false) &&
     !validationStatus.includes(undefined)
   ) {
-    mergeInputs(); //  la fonction "mergeInputs" est appelée, puis une requête HTTP POST est envoyée à l'URL "http://localhost:3000/api/products/order" avec le corps de la requête contenant la valeur de la variable "orderProducts" encodée en tant que chaîne JSON.
+    mergeInputs();
     const url = "http://localhost:3000/api/products/order";
     fetch(url, {
-      // méthode fetch() pour récupérer les données
-      method: "POST", // méthode POST pour envoyer des données au serveur
-      body: JSON.stringify(orderProducts), // méthode stringify() pour convertir un objet JavaScript en chaîne de caractères JSON
+      method: "POST",
+      body: JSON.stringify(orderProducts),
       headers: {
-        "Content-Type": "application/json", // Défini le type de données à envoyer au serveur (ici, "POST" et "JSON" )
+        "Content-Type": "application/json",
       },
     })
       .then((response) => {
         return response.json();
       })
       .then((response) => {
-        localStorage.clear(); // Cela vide le stockage local et redirige l'utilisateur vers une page de confirmation avec un paramètre d'URL "order" qui contient l'identifiant de commande renvoyé par l'API
-        window.location.href = `confirmation.html?order=${response.orderId}`; // méthode location.href pour rediriger l'utilisateur vers une page de confirmation avec un paramètre d'URL "order" qui contient l'identifiant de commande renvoyé par l'API
+        localStorage.clear();
+        window.location.href = `confirmation.html?order=${response.orderId}`;
       })
       .catch((error) => {
         console.log(error);
@@ -453,6 +339,7 @@ function sendCartAndInput(event) {
   }
 }
 
+// Description: This function is used to display the cart total price
 if (cart.length === 0) {
   document.getElementById("limitedWidthBlock").innerHTML =
     "Votre panier est vide";
@@ -460,20 +347,15 @@ if (cart.length === 0) {
   console.log("Panier vide");
 }
 
-// Trouvez l'index du produit dans le panier
 const product = cart.findIndex((product) => product.id === "id");
 
-// Si le produit existe dans le panier
 if (product !== -1) {
-  // Récupérez le produit
   const product = cart[product];
 
-  // Si la quantité est égale à 0, supprimez le produit du panier
   if (product.quantity === 0) {
     cart.splice(product, 1);
   }
 
-  // Si le panier est vide, affichez un message "Panier vide"
   if (cart.length === 0) {
     console.log("Panier vide");
   }
@@ -482,24 +364,22 @@ if (cart.length === 0) {
   alert("Le panier est vide");
 }
 
+// Description: This function is used to display the cart total price
 const calculatePrice = () => {
-  // Initialiser le prix total à 0
   let totalPrice = 0;
 
-  // Parcourir tous les articles dans le panier
   for (let i = 0; i < cart.length; i++) {
-    // Ajouter le prix de l'article au total
     totalPrice += cart[i].price * cart[i].quantity;
 
-    // Si le total dépasse 100, arrêter de calculer et définir le total sur 100
     if (totalPrice >= 100) {
       totalPrice = 100;
       break;
     }
   }
 
-  // Retourner le prix total
   return totalPrice;
 };
-// Appeler la fonction calculatePrice et afficher le résultat
+
 console.log(calculatePrice(cart));
+
+// Description: This function is used to display the cart total price

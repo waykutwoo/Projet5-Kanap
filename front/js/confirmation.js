@@ -1,3 +1,4 @@
+// Récupération de l'ID de commande
 const currentPageUrl = document.location.href;
 const url = new URL(currentPageUrl);
 const orderId = url.searchParams.get("order");
